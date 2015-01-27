@@ -1,0 +1,25 @@
+<!-- Page Content -->
+<div id="page-wrapper">
+    <div class="container-fluid">
+        <h3>User Information</h3>
+        <br />
+        <table class="table no-border">
+            <tr>
+                <td><strong>Name: </td>
+                <td><em><?php  echo ucwords($details['user_first']); ?> <?php echo ucwords($details['user_last']); ?></em></td>
+            </tr>
+            <tr>
+                <td><strong>Email: </td>
+                <td><em><?php echo $details['user_email']; ?></em></td>
+            </tr>
+            <tr>
+                <td><strong>Role: </td>
+                <td><em>Administrator</em></td>
+            </tr>
+            <tr>
+                <td><strong>Created Date: </td>
+                <td><em><?php echo date('M d, Y H:i', strtotime($details['user_created'])); ?></em></td>
+            </tr>
+        </table>
+    </div>
+</div>
