@@ -1,7 +1,7 @@
 <?php //-->
 
 
-namespace Front\Page\Servers;
+namespace Front\Page\Server;
 
 /**
  * The base class for any class that defines a view.
@@ -15,7 +15,7 @@ class Add extends \Page
 {	
 	protected $title = "Add Server";
 	protected $id = "add-server";
-    protected $template = '/servers/add.phtml';
+    protected $template = '/server/add.phtml';
 
 	public function getVariables()
 	{ 
