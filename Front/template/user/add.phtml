@@ -5,54 +5,46 @@
             <div class="col-lg-12">
                 <h3 class="page-header">Add User</h3>
             </div>
-            <!-- /.col-lg-12 -->
         </div>
+        <?php if(isset($__msg) && !empty($__msg) && is_array($__msg)): ?>
+        <p class="alert alert-<?php echo $__msg['type']; ?>"><?php echo $__msg['msg']; ?></p>
+        <?php endif; ?>
         <div class="row">
-        <div class="col-lg-12">
-            <form role="form" method="post">
-                <div class="form-group col-md-6 ">
-                    <label for="email">User Email</label>
-                    <input class="form-control" placeholder="User Email" name="" required="" value="" type="email">
-                </div>
-                <div class="form-group col-md-6 ">
-                    <label for="name">User Name</label>
-                    <input class="form-control" placeholder="Username" name="" required="" value="" type="text">
-                </div>
-                <div class="form-group col-md-6 ">
-                    <label for="name">First Name</label>
-                    <input class="form-control" placeholder="First Name" name="" required="" value="" type="text">
-                </div>
-                <div class="form-group col-md-6 ">
-                    <label for="name">Last Name</label>
-                    <input class="form-control" placeholder="Last Name" name="" required="" value="" type="text">
-                </div>
-                <div class="form-group col-md-6 ">
-                    <label for="name">Password </label>
-                    <input class="form-control" placeholder="Password" name="" required="" value="" type="password">
-                </div>
-                <div class="form-group col-md-6 ">
-                    <label for="name">Repeat Password </label>
-                    <input class="form-control" placeholder="Repeat Password" name="" required="" value="" type="password">
-                </div>
-                <div class="form-group col-md-6 ">
-                    <label for="name">User Role</label>
-                    <select class="form-control">
-                        <option>Administrator</option>
-                        <option>Developer</option>
-                    </select>
-                </div>
-                <div class="form-group col-md-6 ">
-                    <label for="name">Status</label>
-                    <select class="form-control">
-                        <option>Active</option>
-                        <option>Inactive</option>
-                    </select>
-                </div>
-                <div class="col-md-12 text-right">
-                    <button type="submit" class="btn btn-primary">Add User</button>
-                </div>
-            </form>
-        </div>
+            <div class="col-lg-12">
+                <form role="form" method="post">
+                    <div class="form-group col-md-6 ">
+                        <label for="email">User Email</label>
+                        <input class="form-control" placeholder="User Email" name="user[email]" required="" 
+                            value="<?php echo isset($data['email']) ? $data['email'] : ''; ?>" type="email">
+                    </div>
+                    <div class="form-group col-md-6 ">
+                        <label for="name">User Name</label>
+                        <input class="form-control" placeholder="Username" name="user[name]" required="" 
+                        value="<?php echo isset($data['name']) ? $data['name'] : ''; ?>" type="text">
+                    </div>
+                    <div class="form-group col-md-6 ">
+                        <label for="name">First Name</label>
+                        <input class="form-control" placeholder="First Name" name="user[first]" required="" 
+                        value="<?php echo isset($data['first']) ? $data['first'] : ''; ?>" type="text">
+                    </div>
+                    <div class="form-group col-md-6 ">
+                        <label for="name">Last Name</label>
+                        <input class="form-control" placeholder="Last Name" name="user[last]" required="" 
+                        value="<?php echo isset($data['last']) ? $data['last'] : ''; ?>" type="text">
+                    </div>
+                    <div class="form-group col-md-6 ">
+                        <label for="name">User Role</label>
+                        <select class="form-control" name="user[role]">
+                            <option value="2"<?php echo isset($data['role']) && $data['role'] == 2 ? ' selected' : ''; ?>>Developer</option>
+                            <option value="1"<?php echo isset($data['role']) && $data['role'] == 1 ? ' selected' : ''; ?>>Administrator</option>
+                        </select>
+                    </div>
+                    <hr />
+                    <div class="col-md-12">
+                        <button type="submit" class="btn btn-primary">Add User</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </div>
