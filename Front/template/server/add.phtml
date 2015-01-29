@@ -7,35 +7,38 @@
             </div>
             <!-- /.col-lg-12 -->
         </div>
+        <?php if(isset($serverMsg) && !empty($serverMsg) && is_array($serverMsg)): ?>
+        <p class="alert alert-<?php echo $serverMsg['type']; ?>"><?php echo $serverMsg['msg']; ?></p>
+        <?php endif; ?>
         <div class="row">
-        <div class="col-lg-12">
-            <form role="form" method="post">
-                <div class="form-group col-md-6 ">
-                    <label for="email">Server Name</label>
-                    <input class="form-control" placeholder="Server Name" name="" required="" value="" type="email">
-                </div>
-                <div class="form-group col-md-6 ">
-                    <label for="name">Root</label>
-                    <input class="form-control" placeholder="Root" name="" required="" value="" type="text">
-                </div>
-                <div class="form-group col-md-6 ">
-                    <label for="name">Password </label>
-                    <input class="form-control" placeholder="Password" name="" required="" value="" type="password">
-                </div>
-                <div class="form-group col-md-6 ">
-                    <label for="name">Repeat Password </label>
-                    <input class="form-control" placeholder="Repeat Password" name="" required="" value="" type="password">
-                </div>
-                <div class="form-group col-md-6 ">
-                    <label for="name">Server IP</label>
-                    <input class="form-control" placeholder="Server IP" name="" required="" value="" type="text">
-                </div>
+            <div class="col-lg-12">
+                <form role="form" method="post">
+                    <div class="form-group col-md-6 ">
+                        <label for="email">Server Name</label>
+                        <input class="form-control" placeholder="Server Name" name="server[name]" required="" 
+                            value="<?php echo isset($data['name']) ? $data['name'] : ''; ?>" type="text">
+                    </div>
+                    <div class="form-group col-md-6 ">
+                        <label for="name">Root</label>
+                        <input class="form-control" placeholder="Root" name="server[root]" required="" 
+                            value="<?php echo isset($data['root']) ? $data['root'] : ''; ?>" type="text">
+                    </div>
+                    <div class="form-group col-md-6 ">
+                        <label for="name">Password </label>
+                        <input class="form-control" placeholder="Password" name="server[pass]" required="" 
+                            value="" type="password">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="name">Server IP</label>
+                        <input class="form-control" placeholder="Server IP" name="server[ip]" required="" 
+                            value="<?php echo isset($data['ip']) ? $data['ip'] : ''; ?>" type="text">
+                    </div>
 
-                <div class="col-md-12 text-right">
-                    <button type="submit" class="btn btn-primary">Add Server</button>
-                </div>
-            </form>
-        </div>
+                    <div class="col-md-12 text-right">
+                        <button type="submit" class="btn btn-primary">Add Server</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </div>
