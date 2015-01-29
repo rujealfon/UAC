@@ -18,7 +18,16 @@ class Users extends \Page
 	protected $id = "user";
 
 	public function getVariables()
-	{ 
+	{
+        if($_SESSION['user']['user_role'] == 2) {
+            header('Location: /');
+            exit;
+        }
+
+        if(isset($_GET['del']) && trim($_GET['del']))
+        {
+            $this->removeUser($_GET['del']);
+        }
 
 		$users = User::getUserList();
 
@@ -76,5 +85,20 @@ class Users extends \Page
 
 		echo json_encode($user); exit;
 	}
+
+    protected function removeUser($id)
+    {
+        $settings = array(
+            'user_id=%s',$id);
+        
+        $fields = array(
+            'user_active'   => 2);
+
+        control()->database()
+            ->updateRows('user', $fields, array($settings));
+
+        header('Location: /users');
+        exit;
+    }
 
 }

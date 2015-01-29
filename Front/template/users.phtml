@@ -49,6 +49,7 @@ h3 { margin: 0; padding: 0;  }
                         <th>User Name</th>
                         <th>First Name</th>
                         <th>Last Name</th>
+                        <th>Status</th>
                         <th class="text-center">Actions</th>
                     </tr>
                 </thead>
@@ -59,12 +60,26 @@ h3 { margin: 0; padding: 0;  }
                         <td><?php echo $user['user_name']; ?></td>
                         <td><?php echo $user['user_first']; ?></td>
                         <td><?php echo $user['user_last']; ?></td>
+                        <td>
+                        <?php if($user['user_active'] == 0): ?>
+                        <span class="label label-warning">Inactive</span>
+                        <?php elseif($user['user_active'] == 1): ?>
+                        <span class="label label-success">Active</span>
+                        <?php else: ?>
+                        <span class="label label-danger">Disabled</span>
+                        <?php endif; ?>
+                        </td>
                         <td class="text-center actions">
                             <a href="/user/detail/<?php echo $user['user_id']; ?>" title="User Information">
                             <i class="fa fa-info-circle"></i></a>
                             <a href="#" title="Edit User"><i class="fa fa-pencil-square"></i></a>
-                            <a href="#" title="Delete User"><i class="fa fa-times-circle"></i></a>
+                            <?php if($user['user_active'] != 2): ?>
+                            <a href="?del=<?php echo $user['user_id']; ?>" title="Delete User" class="delete"><i class="fa fa-times-circle"></i></a>
+
+                            <?php endif; ?>
+                            <?php if($user['user_active'] == 1): ?>
                             <a href="#" class="userModal" title="Add Server" data-toggle="modal" data-target="#AddServer" data-id="<?php echo $user['user_id']; ?>"><i class="fa fa-plus-circle"></i></a>
+                            <?php endif; ?>
                         </td>
                     </tr>
                     <?php endforeach; ?>
@@ -196,4 +211,12 @@ $(function() {
     });
     
  });
+
+$('.delete').click(function() {
+    if(confirm('Click OK to continue!')) {
+        return true;
+    }
+
+    return false;
+})
 </script>
