@@ -22,9 +22,9 @@ class Users extends \Page
 
 		$users = User::getUserList();
 
+		// typehead
 		if (isset($_GET['q']) && !empty($_GET['q'])) {
-
-			// for input keyword
+			
 			$filter = array();
 	        if(!empty($_GET['q'])) {
 	            $keyword = trim($_GET['q']);
@@ -39,13 +39,31 @@ class Users extends \Page
 	            ->setColumns('server_name')
 	            ->addFilter('server_name LIKE %s', '%'.$filter['cat'].'%')
 	            ->getRows();
-	        // convert to json
+	        // encode to json
 	        die(json_encode($server));
+		}
+
+		// for ajax modal
+		if (isset($_GET['action']) && $_GET['action'] == 'getuser') { 
+			$this->getUser();
 		}  
 
 		return array(
 			'users' => $users
 		);		
+	}
+
+	public function getUser() 
+	{
+		$id = $_GET['id'];
+
+		$user = control()->database()
+			->search('user')
+			->setColumns('*')
+			->filterByUserId($id)
+			->getRow();
+
+		echo json_encode($user); exit;
 	}
 
 }

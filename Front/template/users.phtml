@@ -60,7 +60,7 @@ h3 { margin: 0; padding: 0;  }
                             <i class="fa fa-info-circle"></i></a>
                             <a href="#" title="Edit User"><i class="fa fa-pencil-square"></i></a>
                             <a href="#" title="Delete User"><i class="fa fa-times-circle"></i></a>
-                            <a href="#" class="userModal" title="Add Server" data-toggle="modal" data-target="#AddServer" data-user="<?php echo $user['user_name']; ?>"><i class="fa fa-plus-circle"></i></a>
+                            <a href="#" class="userModal" title="Add Server" data-toggle="modal" data-target="#AddServer" data-id="<?php echo $user['user_id']; ?>"><i class="fa fa-plus-circle"></i></a>
                         </td>
                     </tr>
                     <?php endforeach; ?>
@@ -81,14 +81,32 @@ h3 { margin: 0; padding: 0;  }
             <form class="form-horizontal">
                 <div class="modal-body">
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">Name</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="name form-control"  placeholder="Name">
+                        <label class="col-sm-3 control-label">Email</label>
+                        <div class="col-sm-9">
+                            <em><label class="user_email control-label"></label></em>
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-2 control-label">Servers</label>
-                        <div class="col-sm-10">
+                        <label class="col-sm-3 control-label">User Name</label>
+                        <div class="col-sm-9">
+                            <em><label class="user_name control-label"></label></em>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">First Name</label>
+                        <div class="col-sm-9">
+                            <em><label class="user_first control-label"></label></em>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Last Name</label>
+                        <div class="col-sm-9">
+                            <em><label class="user_last control-label"></label></em>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Servers</label>
+                        <div class="col-sm-9">
                             <input type="text" class="typeahead form-control" name="server"/>
                         </div>
                     </div>
@@ -123,8 +141,31 @@ $(function() {
     });
 
     $('.userModal').on('click',function() {
-        var username = $(this).data('user');
-        $('input.name').val(username);
+
+        var id = $(this).data('id');
+        $.ajax({
+                type: 'GET',
+                url: '/users/'+id,
+                dataType: 'json',
+                data: {
+                    id : id,
+                    action : 'getuser'
+                },
+                success: function(response) {
+
+                    var user          = response,
+                        user_email    = user['user_email'],
+                        user_name     = user['user_name'];
+                        user_first     = user['user_first'];
+                        user_last     = user['user_last'];
+
+                    $('label.user_email').text(user_email);
+                    $('label.user_name').text(user_name);
+                    $('label.user_first').text(user_first);
+                    $('label.user_last').text(user_last);
+                }
+        });
+
     });
     
  });
