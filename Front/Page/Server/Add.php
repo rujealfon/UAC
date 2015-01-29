@@ -55,7 +55,7 @@ class Add extends \Page
             $this->setMsg('Password is invalid', 'danger');
         }
 
-        if(!isset($data['ip']) || !trim($data['ip']))
+        if(!isset($data['ip']) || !trim($data['ip']) || !is_numeric($data['ip']))
         {
             $this->setMsg('Server IP is invalid!', 'danger');
         }

@@ -55,7 +55,7 @@ h3 { margin: 0; padding: 0;  }
                         <th>First Name</th>
                         <th>Last Name</th>
                         <th>Status</th>
-                        <th class="text-center">Actions</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -74,7 +74,7 @@ h3 { margin: 0; padding: 0;  }
                         <span class="label label-danger">Disabled</span>
                         <?php endif; ?>
                         </td>
-                        <td class="text-center actions">
+                        <td class="actions">
                             <a href="/user/detail/<?php echo $user['user_id']; ?>" title="User Information">
                             <i class="fa fa-info-circle"></i></a>
                             <a href="#" title="Edit User"><i class="fa fa-pencil-square"></i></a>
@@ -126,6 +126,15 @@ h3 { margin: 0; padding: 0;  }
                         <label class="col-sm-3 control-label">Last Name</label>
                         <div class="col-sm-9">
                             <em><label class="user_last control-label"></label></em>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Role</label>
+                        <div class="col-sm-9">
+                            <select class="form-control" name="user[role]">
+                            <option value="2"<?php echo isset($data['role']) && $data['role'] == 2 ? ' selected' : ''; ?>>Developer</option>
+                            <option value="1"<?php echo isset($data['role']) && $data['role'] == 1 ? ' selected' : ''; ?>>Administrator</option>
+                        </select>
                         </div>
                     </div>
                     <div class="form-group">

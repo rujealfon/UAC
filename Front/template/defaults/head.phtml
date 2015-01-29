@@ -25,6 +25,7 @@
         </ul>
         </li>
     </ul>
+    <?php if(isset($_SESSION['user']['user_role']) && $_SESSION['user']['user_role'] == 1): ?>
     <div class="navbar-default sidebar" role="navigation">
         <div class="sidebar-nav navbar-collapse">
             <ul class="nav" id="side-menu">
@@ -35,6 +36,7 @@
                     <a href="/servers"><i class="fa fa-server fa-fw"></i> Servers</a>
                 </li>
             </ul>
+        </div>
     </div>
-    </div>
+    <?php endif; ?>
 </nav>

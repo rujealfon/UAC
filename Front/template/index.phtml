@@ -19,7 +19,7 @@ table td {
             </tr>
             <tr>
                 <td><strong>Role: </td>
-                <td><em>Administrator</em></td>
+                <td><em><?php echo isset($user['user_role']) && $user['user_role'] == '1' ? 'Administrator' : 'Developer'; ?></em></td>
             </tr>
             <tr>
                 <td><strong>Created Date: </td>

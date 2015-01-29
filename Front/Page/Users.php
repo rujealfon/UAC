@@ -19,10 +19,10 @@ class Users extends \Page
 
 	public function getVariables()
 	{
-        if($_SESSION['user']['user_role'] == 2) {
-            header('Location: /');
-            exit;
-        }
+        // if($_SESSION['user']['user_role'] == 2) {
+        //     header('Location: /');
+        //     exit;
+        // }
 
         if(isset($_GET['del']) && trim($_GET['del']))
         {

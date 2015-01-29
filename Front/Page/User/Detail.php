@@ -1,6 +1,5 @@
 <?php //-->
 
-//echo "hello world";
 
 namespace Front\Page\User;
 
