@@ -58,6 +58,7 @@ class Login extends \Page  {
         $account = control()->database()
             ->search('user')
             ->filterByUserPass($pass)
+            ->filterByUserActive(1)
             ->addFilter('(user_email = '.$email.' OR user_name = '.$email.')')
             ->getRow();
         
