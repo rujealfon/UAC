@@ -20,8 +20,8 @@
 hr { margin-top: 5px; }
 h3 { margin: 0; padding: 0;  }
 </style>
-<!-- Page Content -->
 
+<!-- Page Content -->
 <div id="page-wrapper">
     <div class="container-fluid">
         <br />
@@ -131,3 +131,38 @@ $(function() {
 </script>
 
 
+=======
+                </div>
+            </form>
+        </div><hr /><br />
+        <div class="row">
+              <table class="table table-hover" id="dataTables-example">
+                <thead>
+                    <tr>
+                        <th>Email</th>
+                        <th>User Name</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th class="text-center">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($users as $user): ?> 
+                    <tr>
+                        <td><?php echo $user['user_email']; ?></td>
+                        <td><?php echo $user['user_name']; ?></td>
+                        <td><?php echo $user['user_first']; ?></td>
+                        <td><?php echo $user['user_last']; ?></td>
+                        <td class="text-center actions">
+                            <a href="/user/detail/<?php echo $user['user_id']; ?>"><i class="fa fa-info-circle"></i></a>
+                            <a href="/product/edit/1"><i class="fa fa-pencil-square"></i></a>
+                            <a href="/product/delete/1"><i class="fa fa-times-circle"></i></a>
+                        </td>
+                    </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+>>>>>>> 1a70c301ca4c4cd62d89d02333049ddedaab65aa
