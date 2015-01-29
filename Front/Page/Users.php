@@ -32,13 +32,24 @@ class Users extends \Page
 	            $keyword = str_replace('.','\.', $keyword);
 	            $filter['cat'] = $keyword;
 	        }
+
+            if(!empty($_GET['x']) && is_array($_GET['x']))
+            {
+                $x = implode(',', array_map(function($val) 
+                    { return control()->database()->bind($val); }
+                    , $_GET['x']));
+            }
 			
 			// search for servername
 			$server = control()->database()
 	            ->search('server')
-	            ->setColumns('server_name')
-	            ->addFilter('server_name LIKE %s', '%'.$filter['cat'].'%')
-	            ->getRows();
+	            ->addFilter('server_name LIKE %s', '%'.$filter['cat'].'%');
+            
+            if(isset($x)) {
+                $server->addFilter('(server_id NOT IN ('.$x.'))');
+            }
+	        
+            $server = $server->getRows();
 	        // encode to json
 	        die(json_encode($server));
 		}
