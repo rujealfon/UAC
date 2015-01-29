@@ -1,7 +1,7 @@
 <?php //-->
 
 
-namespace Front\Page;
+namespace Front\Page\Servers;
 
 /**
  * The base class for any class that defines a view.
@@ -11,21 +11,15 @@ namespace Front\Page;
  * @vendor Openovate
  * @package Framework
  */
-class Servers extends \Page 
+class Add extends \Page 
 {	
-	protected $title = "Server";
-	protected $id = "server";
+	protected $title = "Add Server";
+	protected $id = "add-server";
+    protected $template = '/servers/add.phtml';
 
 	public function getVariables()
-	{ 
-
-		$servers = control()->database()
-			->search('server')
-			->setColumns('*')
-			->getRows();
-
-		return array(
-			'servers' => $servers
-		);
+	{
+		return array();
 	}
 }
+

@@ -24,7 +24,6 @@ class Detail extends \Page
 		// get requested user Id
         $this->userId = control()->registry()->get('request', 'variables', 0);
 
-
         if (!$this->userId || !is_numeric($this->userId)) {
         	// throw a message
             $this->addMessage('Unknown user. Please select users from the list below.', 'danger');

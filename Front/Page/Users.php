@@ -22,8 +22,30 @@ class Users extends \Page
 
 		$users = User::getUserList();
 
+		if (isset($_GET['q']) && !empty($_GET['q'])) {
+
+			// for input keyword
+			$filter = array();
+	        if(!empty($_GET['q'])) {
+	            $keyword = trim($_GET['q']);
+	            $keyword = str_replace('+','\+', $keyword);
+	            $keyword = str_replace('.','\.', $keyword);
+	            $filter['cat'] = $keyword;
+	        }
+			
+			// search for servername
+			$server = control()->database()
+	            ->search('server')
+	            ->setColumns('server_name')
+	            ->addFilter('server_name LIKE %s', '%'.$filter['cat'].'%')
+	            ->getRows();
+	        // convert to json
+	        die(json_encode($server));
+		}  
+
 		return array(
-			'users' => $users);		
+			'users' => $users
+		);		
 	}
 
 }
