@@ -19,10 +19,17 @@ class Users extends \Page
 
 	public function getVariables()
 	{
-        // if($_SESSION['user']['user_role'] == 2) {
-        //     header('Location: /');
-        //     exit;
-        // }
+        if($_SESSION['user']['user_role'] == 2) {
+            header('Location: /');
+            exit;
+        }
+
+        // add user to server
+        if(isset($_POST['addToServer']) && !empty($_POST['addToServer']))
+        {
+            $this->addToServer($_POST['addToServer']);
+        }
+        // remove user
 
 		$users = User::getUserList();
 
@@ -46,11 +53,17 @@ class Users extends \Page
             $this->removeUser($_GET['del']);
         }
 
+		$users = User::getUserList();
+
+		// typehead
+		if (isset($_GET['q']) && !empty($_GET['q'])) 
+        {
 		// Typehead
 		if (isset($_GET['q']) && !empty($_GET['q'])) {
 			
 			$filter = array();
-	        if(!empty($_GET['q'])) {
+	        if(!empty($_GET['q'])) 
+            {
 	            $keyword = trim($_GET['q']);
 	            $keyword = str_replace('+','\+', $keyword);
 	            $keyword = str_replace('.','\.', $keyword);
@@ -79,7 +92,8 @@ class Users extends \Page
 		}
 
 		// for ajax modal
-		if (isset($_GET['action']) && $_GET['action'] == 'getuser') { 
+		if (isset($_GET['action']) && $_GET['action'] == 'getuser')
+        { 
 			$this->getUser();
 		} 
 
@@ -88,7 +102,7 @@ class Users extends \Page
 		);		
 	}
 
-	public function getUser() 
+	protected function getUser() 
 	{
 		$id = $_GET['id'];
 
@@ -114,6 +128,62 @@ class Users extends \Page
 
         header('Location: /users');
         exit;
+    }
+
+    protected function addToServer($data) {
+        if(!isset($data['user']) || !trim($data['user']))
+        {
+            die(json_encode(array(
+                'type'      => 'danger',
+                'msg'       => 'Something went wrong, reload the page and try again!!')));
+        }
+
+        if(!isset($data['server']) || empty($data['server']))
+        {
+            die(json_encode(array(
+                'type'      => 'danger',
+                'msg'       => 'Please select a server!')));
+        }
+
+        if(!is_array($data['server']))
+        {
+            die(json_encode(array(
+                'type'      => 'danger',
+                'msg'       => 'Something went wrong, reload the page and try again!')));
+        }
+
+        if(!isset($data['role']) || !trim($data['role']))
+        {
+            die(json_encode(array(
+                'type'      => 'danger',
+                'msg'       => 'Please select a role for the user!')));
+        }
+
+        if($data['role'] < 1 && $data['role'] > 2)
+        {
+            die(json_encode(array(
+                'type'      => 'danger',
+                'msg'       => 'Invalid role!')));
+        }
+
+        //get user information
+        $user = \Mod\User::i()->getUserInfo($data['user']);
+        if(empty($user))
+        {
+            die(json_encode(array(
+                'type'      => 'danger',
+                'msg'       => 'User does not exist!')));
+        }
+
+        if($user['user_active'] != 1)
+        {
+            die(json_encode(array(
+                'type'      => 'danger',
+                'msg'       => 'User is not active!')));
+        }
+
+        \Mod\User::i()->setUserId($data['user'])
+            ->addToServer($data['server'], $data['role']);
     }
 
 }

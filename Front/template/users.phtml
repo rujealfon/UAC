@@ -14,7 +14,14 @@
 
 hr { margin-top: 5px; }
 h3 { margin: 0; padding: 0;  }
-.dropdown-server { background: #FFF; display: none; border: 1px solid #f1f1f1; }
+.dropdown-server { 
+    background: #FFF; 
+    display: none; 
+    border: 1px solid #f1f1f1; 
+    position: absolute;
+    width: 329px;
+    z-index: 1
+}
 .dropdown-server a {
     display:block;
     padding: 5px;
@@ -27,7 +34,7 @@ h3 { margin: 0; padding: 0;  }
 .modal form .control-label { text-align: left; }
 .modal form .modal-body { margin: 0 10%; }
 .modal form .modal-body a { text-decoration: none; }
-
+#submitter { display: none; }
 </style>
 
 <!-- Page Content -->
@@ -106,8 +113,9 @@ h3 { margin: 0; padding: 0;  }
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="myModalLabel">Add User to Server</h4>
             </div>
-            <form class="form-horizontal">
+            <form class="form-horizontal" method="post" id="add-to-server" target="addToServer">
                 <div class="modal-body">
+                    <div class="msg"></div>
                     <div class="form-group">
                         <label class="col-sm-3 control-label">Email</label>
                         <div class="col-sm-9">
@@ -133,21 +141,21 @@ h3 { margin: 0; padding: 0;  }
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-3 control-label">Role</label>
-                        <div class="col-sm-9">
-                            <select class="form-control" name="user[role]">
-                            <option value="2"<?php echo isset($data['role']) && $data['role'] == 2 ? ' selected' : ''; ?>>Developer</option>
-                            <option value="1"<?php echo isset($data['role']) && $data['role'] == 1 ? ' selected' : ''; ?>>Administrator</option>
-                        </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
                         <label class="col-sm-3 control-label">Servers</label>
                         <div class="col-sm-9">
                             <input type="hidden" name="addToServer[user]" id="add-to-server-user" />
                             <div class="server-tags"></div>
-                            <input type="text" class="typeahead form-control" />
+                            <input type="text" class="typeahead form-control" placeholder="Server Name" />
                             <div class="dropdown-server"></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Role</label>
+                        <div class="col-sm-9">
+                            <select name="addToServer[role]" class="form-control">
+                                <option value="2">Developer</option>
+                                <option value="1">Administrator</option>
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -155,6 +163,7 @@ h3 { margin: 0; padding: 0;  }
                     <button type="submit" class="btn btn-primary">Add to Server</button>
                 </div>
             </form>
+            <iframe name="addToServer" id="submitter"></iframe>
         </div>
     </div>
 </div>
@@ -236,5 +245,17 @@ $('.delete').click(function() {
     }
 
     return false;
-})
+});
+
+var submitter = false;
+$('form#add-to-server').submit(function() {
+    submitter = true;
+    return true;
+});
+$('#submitter').load(function() {
+    if(!submitter) return;
+    submitter = false;
+    var content = $(this).contents().find('body').html();
+    console.log(content)
+});
 </script>

@@ -53,7 +53,7 @@ class Login extends \Page  {
                 'msg'   => ' Password is invalid!'));
         }
 
-        $pass = md5($data['password']);
+        $pass = base64_encode($data['password']);
         $email = control()->database()->bind($data['email']);
         $account = control()->database()
             ->search('user')
