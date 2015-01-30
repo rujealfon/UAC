@@ -24,14 +24,29 @@ class Users extends \Page
         //     exit;
         // }
 
+		$users = User::getUserList();
+
+		// Search Users
+		$search = control()->database()
+			->search('user');
+
+		// Get keywords
+		if(isset($_GET['keywords']) && !empty($_GET['keywords'])) {
+			$keywords = sprintf('%s', $_GET['keywords']);
+			$search = $search->addFilter('(user_email LIKE \'%%'.$keywords.'%%\'
+				OR user_name LIKE \'%%'.$keywords.'%%\' 
+				OR user_first LIKE \'%%'.$keywords.'%%\' 
+				OR user_last LIKE \'%%'.$keywords.'%%\')');
+			$users = $search->getRows();
+		}
+
+		// Remove User
         if(isset($_GET['del']) && trim($_GET['del']))
         {
             $this->removeUser($_GET['del']);
         }
 
-		$users = User::getUserList();
-
-		// typehead
+		// Typehead
 		if (isset($_GET['q']) && !empty($_GET['q'])) {
 			
 			$filter = array();
@@ -66,7 +81,7 @@ class Users extends \Page
 		// for ajax modal
 		if (isset($_GET['action']) && $_GET['action'] == 'getuser') { 
 			$this->getUser();
-		}  
+		} 
 
 		return array(
 			'users' => $users

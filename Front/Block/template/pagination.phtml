@@ -1,0 +1,15 @@
+<?php if($pages > 1): ?>
+	<ul class="pagination">
+		<?php for($i = $min; $i <= $max; $i++): ?>
+			<?php $query['page'] = $i; ?>
+			<?php $string = http_build_query($query); ?>
+			<?php if($i == $page): ?>
+				<li class="active"><a class="<?php echo $class; ?>" href="<?php echo $url; 
+				?>?<?php echo $string; ?>"><?php echo $i; ?></a></li>
+			<?php else: ?>
+				<li><a class="<?php echo $class; ?>" href="<?php echo $url; 
+				?>?<?php echo $string; ?>"><?php echo $i; ?></a></li>
+			<?php endif; ?>
+		<?php endfor; ?>
+	</ul> 
+<?php endif; ?>
