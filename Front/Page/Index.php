@@ -17,7 +17,7 @@ class Index extends \Page
 	protected $id = "home";
 
 	public function getVariables()
-	{
+	{	
         // get user information using current session
         $user = \Mod\User::i()->getUserInfo($_SESSION['user']['user_id']);
         // check if user is available

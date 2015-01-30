@@ -86,7 +86,7 @@ class User extends EdenController
            // control()->database()
              //   ->insertRow('dev', $setting);
             
-            shell_exec('sh '.$file['addUser'].' '.$server['server_ip'].' '.$server['server_pass'].' '.base64_decode($user['user_pass']).' '.$user['user_name'].' '.$server['server_root']);
+            exec('sh '.$file['addUser'].' '.$server['server_ip'].' '.$server['server_pass'].' '.base64_decode($user['user_pass']).' '.$user['user_name'].' '.$server['server_root']);
             
             //exec('/usr/bin/php /server/public/uac.dev/repo/stack/test.php');
             die(exec('whoami'));
