@@ -19,7 +19,8 @@ class Users extends \Page
 
 	public function getVariables()
 	{
-        if($_SESSION['user']['user_role'] == 2) {
+        if($_SESSION['user']['user_role'] == 2) 
+        {
             header('Location: /');
             exit;
         }
@@ -38,7 +39,8 @@ class Users extends \Page
 			->search('user');
 
 		// Get keywords
-		if(isset($_GET['keywords']) && !empty($_GET['keywords'])) {
+		if(isset($_GET['keywords']) && !empty($_GET['keywords'])) 
+        {
 			$keywords = sprintf('%s', $_GET['keywords']);
 			$search = $search->addFilter('(user_email LIKE \'%%'.$keywords.'%%\'
 				OR user_name LIKE \'%%'.$keywords.'%%\' 
@@ -55,9 +57,6 @@ class Users extends \Page
 
 		$users = User::getUserList();
 
-		// typehead
-		if (isset($_GET['q']) && !empty($_GET['q'])) 
-        {
 		// Typehead
 		if (isset($_GET['q']) && !empty($_GET['q'])) {
 			
@@ -101,8 +100,8 @@ class Users extends \Page
 			'users' => $users
 		);		
 	}
-
-	protected function getUser() 
+	
+    protected function getUser() 
 	{
 		$id = $_GET['id'];
 
