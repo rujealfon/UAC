@@ -1,5 +1,5 @@
 <?php //-->
-
+ 
 namespace Front\Block;
 
 use Eden\Block\Base as Block;
