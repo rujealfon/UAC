@@ -30,14 +30,21 @@ class Detail extends \Page
             control()->redirect('/users');
         }
 
-        $details = control()->database()
+        $detail = control()->database()
         	->search('user')
         	->setColumns('*')
         	->addFilter('user_id=%s', $this->userId)
         	->getRow();
 
+        $server = control()->database()
+            ->search('dev')
+            ->innerJoinOn('server','server_id=dev_server')
+            ->filterByDevUser($this->userId)
+            ->getRows();
+
 		return array(
-			'details' => $details
+			'detail' => $detail,
+            'server' => $server
 		);
 
 	}

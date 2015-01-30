@@ -102,6 +102,15 @@ h3 { margin: 0; padding: 0;  }
                 </tbody>
             </table>
         </div>
+        <!-- Pagination -->
+        <?php
+            $page = isset($_GET['page']) ? $_GET['page']: 1 ;
+            echo control()->block('pagination')
+            ->setRange($range)
+            ->setPage($page)
+            ->setTotal($totalUsers);
+        ?>
+
     </div>
 </div>
 

@@ -1,8 +1,7 @@
 <style>
-table td {
-    font-size: 12px;
-}
+    .table td, .table th { font-size: 12px; }
 </style>
+
 <!-- Page Content -->
 <div id="page-wrapper">
     <div class="container-fluid">
@@ -26,6 +25,39 @@ table td {
                 <td><em><?php echo date('M d, Y H:i', strtotime($user['user_created'])); ?></em></td>
             </tr>
         </table>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                List of Servers
+            </div>
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Server Name</th>
+                                <th>Root</th>
+                                <th>Server IP</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php if(empty($server)): ?>
+                            <tr>
+                                <td colspan="3" class="text-center">No Servers Found</td>
+                            </tr>
+                            <?php endif; ?>
+                            <?php foreach($server as $servers): ?>
+                            <tr>
+                                <td><?php echo $servers['server_name'] ?></td>
+                                <td><?php echo $servers['server_root'] ?></td>
+                                <td><?php echo $servers['server_ip'] ?></td>
+                            </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 

@@ -14,23 +14,21 @@ use \Mod\User;
  */
 class Users extends \Page 
 {	
+    /* Constants
+    -------------------------------*/
+    const ERROR_NOT = '' ;
+    const RANGE = 10;
+
 	protected $title = "User";
 	protected $id = "user";
 
 	public function getVariables()
 	{
-        if($_SESSION['user']['user_role'] == 2) 
-        {
-            header('Location: /');
-            exit;
-        }
-
         // add user to server
         if(isset($_POST['addToServer']) && !empty($_POST['addToServer']))
         {
             $this->addToServer($_POST['addToServer']);
         }
-        // remove user
 
 		$users = User::getUserList();
 
@@ -55,7 +53,18 @@ class Users extends \Page
             $this->removeUser($_GET['del']);
         }
 
-		$users = User::getUserList();
+        // Determine Current Page
+        $page = isset($_GET['page'])? $_GET['page']: 1;
+
+        // Get The Start In Query
+        $start = (isset($_GET['page']) && $_GET['page'] != 1)?
+            ($_GET['page'] - 1) * self::RANGE: 0;
+
+        $totalUsers = $search->getRows();
+
+        $users = $search->setStart($start)
+            ->setRange(self::RANGE)
+            ->getRows();
 
 		// Typehead
 		if (isset($_GET['q']) && !empty($_GET['q'])) {
@@ -76,7 +85,7 @@ class Users extends \Page
                     , $_GET['x']));
             }
 			
-			// search for servername
+			// Search For Servername
 			$server = control()->database()
 	            ->search('server')
 	            ->addFilter('server_name LIKE %s', '%'.$filter['cat'].'%');
@@ -97,7 +106,10 @@ class Users extends \Page
 		} 
 
 		return array(
-			'users' => $users
+			'users' => $users,
+            'range' => self::RANGE,
+            'page' => $page,
+            'totalUsers' => count($totalUsers)
 		);		
 	}
 	

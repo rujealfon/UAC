@@ -21,14 +21,24 @@ class Index extends \Page
         // get user information using current session
         $user = \Mod\User::i()->getUserInfo($_SESSION['user']['user_id']);
         // check if user is available
-        if(!$user) {
+        if(!$user) 
+        {
             //logout the current session
             header('Location: /logout');
             exit;
         }
 
+        // List The Available Servers of Users
+        $server = control()->database()
+            ->search('dev')
+            ->innerJoinOn('server','server_id = dev_server')
+            ->filterByDevUser($_SESSION['user']['user_id'])
+            ->getRows();
+
 		return array(
-            'user'  => $user);
+            'user'  => $user,
+            'server' => $server
+        );
 	}
     
 }
