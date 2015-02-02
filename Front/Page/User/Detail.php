@@ -22,7 +22,7 @@ class Detail extends \Page
 	{ 
 		// get requested user Id
         $this->userId = control()->registry()->get('request', 'variables', 0);
-
+        
         if (!$this->userId || !is_numeric($this->userId)) {
         	// throw a message
             $this->addMessage('Unknown user. Please select users from the list below.', 'danger');
@@ -35,6 +35,31 @@ class Detail extends \Page
         	->setColumns('*')
         	->addFilter('user_id=%s', $this->userId)
         	->getRow();
+        
+        // remove server from user
+        if(isset($_GET['remove']) && trim($_GET['remove']))
+        {
+            $stat = \Mod\User::i()->setUserId($this->userId)
+                ->removeUser($_GET['remove']);
+            
+            if(!$stat)
+            {
+                $_SESSION['userMsg'] = array(
+                    'type'      => 'danger',
+                    'msg'       => 'Something went wrong. Please try again!');
+
+                header('Location: /user/detail/'.$this->userId);
+                exit;
+            }
+
+            $_SESSION['userMsg'] = array(
+                'type'      => 'success',
+                'msg'       => 'Server has been removed');
+
+            header('Location: /user/detail/'.$this->userId);
+            exit;
+
+        }
 
         $server = control()->database()
             ->search('dev')
@@ -42,9 +67,17 @@ class Detail extends \Page
             ->filterByDevUser($this->userId)
             ->getRows();
 
+        $msg = array();
+        if(isset($_SESSION['userMsg']) && !empty($_SESSION['userMsg']))
+        {
+            $msg = $_SESSION['userMsg'];
+            unset($_SESSION['userMsg']);
+        }
+        
 		return array(
-			'detail' => $detail,
-            'server' => $server
+            'userMsg'   => $msg,
+			'detail'    => $detail,
+            'server'    => $server
 		);
 
 	}

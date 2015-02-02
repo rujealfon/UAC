@@ -128,16 +128,16 @@ class User extends EdenController
             return true;
         }
 
-        $server = \Mod\Server::i()->setId($serverId);
+        $server = \Mod\Server::i()->setId($serverId)->getServerById();
         if(empty($server))
         {
             return false;
         }
 
         control()->database()
-            ->deleteRows('dev', array(array('dev_user=%', $this->userId), array('dev_server=%s', $serverId)));
+            ->deleteRows('dev', array(array('dev_user=%s', $user['user_id']), array('dev_server=%s', $serverId)));
 
-        exec('sh '.$file['removeUser'].' '.$server['server_root'].' '.$server['server_ip'].' '.$server['server_pass'].' '.$user['user_name'].'&');die();
-        return false;
+        exec('sh '.$file['removeUser'].' '.$server['server_root'].' '.$server['server_ip'].' '.$server['server_pass'].' '.$user['user_name'].'&');
+        return true;
     }
 }

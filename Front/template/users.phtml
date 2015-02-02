@@ -77,7 +77,7 @@ h3 { margin: 0; padding: 0;  }
                     <?php endif;  ?>
                     <?php foreach ($users as $user): ?> 
                     <tr>
-                        <td><?php echo $user['user_email']; ?></td>
+                        <td><a href="/user/detail/<?php echo $user['user_id']; ?>" title="User Information"><?php echo $user['user_email']; ?></a></td>
                         <td><?php echo $user['user_name']; ?></td>
                         <td><?php echo $user['user_first']; ?></td>
                         <td><?php echo $user['user_last']; ?></td>
@@ -91,8 +91,6 @@ h3 { margin: 0; padding: 0;  }
                         <?php endif; ?>
                         </td>
                         <td class="actions">
-                            <a href="/user/detail/<?php echo $user['user_id']; ?>" title="User Information">
-                            <i class="fa fa-info-circle"></i></a>
                             <a href="#" title="Edit User"><i class="fa fa-pencil-square"></i></a>
                             <?php if($user['user_active'] != 2): ?>
                             <a href="?del=<?php echo $user['user_id']; ?>" title="Delete User" class="delete"><i class="fa fa-times-circle"></i></a>
