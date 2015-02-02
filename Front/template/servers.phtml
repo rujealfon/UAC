@@ -48,12 +48,10 @@ h3 { margin: 0; padding: 0;  }
                     <?php endif; ?>
                     <?php foreach ($servers as $server): ?>
                     <tr>
-                        <td><?php echo $server['server_name']; ?></td>
+                        <td> <a href="/server/detail/<?php echo $server['server_id']; ?>"><?php echo $server['server_name']; ?></a></td>
                         <td><?php echo $server['server_root']; ?></td>
                         <td><?php echo $server['server_ip']; ?></td>
                         <td class="text-center actions">
-                            <a href="/server/detail/<?php echo $server['server_id']; ?>" title="Server Information">
-                            <i class="fa fa-info-circle"></i></a>
                             <a href="#" title="Edit Server"><i class="fa fa-pencil-square"></i></a>
                             <a href="#" title="Delete Server"><i class="delete fa fa-times-circle"></i></a>
                         </td>
