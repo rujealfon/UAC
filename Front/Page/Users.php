@@ -103,13 +103,21 @@ class Users extends \Page
 		if (isset($_GET['action']) && $_GET['action'] == 'getuser')
         { 
 			$this->getUser();
-		} 
+		}
+        
+        $msg = array();
+        if(isset($_SESSION['userMsg']) && !empty($_SESSION['userMsg']))
+        {
+            $msg = $_SESSION['userMsg'];
+            unset($_SESSION['userMsg']);
+        }
 
 		return array(
-			'users' => $users,
-            'range' => self::RANGE,
-            'page' => $page,
-            'totalUsers' => count($totalUsers)
+            'userMsg'       => $msg,
+			'users'         => $users,
+            'range'         => self::RANGE,
+            'page'          => $page,
+            'totalUsers'    => count($totalUsers)
 		);		
 	}
 	
@@ -195,6 +203,13 @@ class Users extends \Page
 
         \Mod\User::i()->setUserId($data['user'])
             ->addToServer($data['server'], $data['role']);
+
+
+        $_SESSION['userMsg'] = array(
+            'type'      => 'success',
+            'msg'       => 'User added to server successfully!');
+
+        die('Ok');
     }
 
 }

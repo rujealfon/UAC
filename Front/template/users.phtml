@@ -52,6 +52,11 @@ h3 { margin: 0; padding: 0;  }
                     </div>
                  </div>
         </div><hr /><br />
+        <div class="user-msg">
+        <?php if(isset($userMsg) && !empty($userMsg) && is_array($userMsg)): ?>
+        <p class="alert alert-<?php echo $userMsg['type']; ?>"><?php echo $userMsg['msg']; ?></p>
+        <?php endif; ?>
+        </div>
         <div class="row">
               <table class="table table-hover" id="dataTables-example">
                 <thead>
@@ -265,6 +270,14 @@ $('#submitter').load(function() {
     if(!submitter) return;
     submitter = false;
     var content = $(this).contents().find('body').html();
-    console.log(content)
+    if(content == 'Ok') {
+        window.location.href = window.location.href;
+        return;
+    }
+
+    content = eval('('+content+')');
+    $('form#add-to-server .msg').html('<p class="alert alert-'+(content.type)+'">'+(content.msg)+'</p>');
+
+    
 });
 </script>

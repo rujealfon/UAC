@@ -78,8 +78,13 @@ class Add extends \Page
 
         control()->database()
             ->insertRow('server', $fields);
-
         
+        $id = control()->database()
+            ->getLastInsertedId();
+        
+        \Mod\Server::i()->setId($id)
+            ->addServer();
+
         $this->setMsg('Server added', 'success');
         
     }

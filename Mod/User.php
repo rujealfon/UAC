@@ -82,14 +82,19 @@ class User extends EdenController
                 'dev_server'    => $v,
                 'dev_status'    => 1,
                 'dev_role'      => $role);
+            
+            $r = 'root';
+            if($role != '1') 
+            {
+                $r = 'developer';
+            }
 
-           // control()->database()
-             //   ->insertRow('dev', $setting);
+            control()->database()
+                ->insertRow('dev', $setting);
             
-            exec('sh '.$file['addUser'].' '.$server['server_ip'].' '.$server['server_pass'].' '.base64_decode($user['user_pass']).' '.$user['user_name'].' '.$server['server_root']);
-            
-            //exec('/usr/bin/php /server/public/uac.dev/repo/stack/test.php');
-            die(exec('whoami'));
-       }
+            exec('sh '.$file['addUser'].' '.$server['server_ip'].' '.$server['server_pass'].' '.base64_decode($user['user_pass']).' '.$user['user_name'].' '.$server['server_root'].' '.$r.' &');
+        }
+        
+        return;
     }
 }
