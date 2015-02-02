@@ -45,4 +45,14 @@ class Server extends EdenController
         exec('sh '.$file['addServer'].' '.$server['server_root'].' '.$server['server_ip'].' '.$server['server_pass'].' ');
         return true;
     }
+
+    public function getServerByUser($userId)
+    {
+        return control()->database()
+            ->search('dev')
+            ->filterByDevUser($userId)
+            ->addInnerJoinOn('server', 'server_id = dev_server')
+            ->getRows();
+
+    }
 }

@@ -83,7 +83,7 @@ class User extends EdenController
                 'dev_status'    => 1,
                 'dev_role'      => $role);
             
-            $r = 'root';
+            $r = 'wheel';
             if($role != '1') 
             {
                 $r = 'developer';
@@ -96,5 +96,48 @@ class User extends EdenController
         }
         
         return;
+    }
+
+    public function removeUser($serverId = NULL)
+    {
+        if(!$this->userId)
+        {
+            return false;
+        }
+
+        $user = $this->getUserInfo($this->userId);
+        if(empty($user))
+        {
+            return false;
+        }
+        
+        $file = control('system')->file(control()->path('config').'/front/scripts.php')->getData();
+        if($serverId === NULL)
+        {
+            //
+            $server = \Mod\Server::i()->getServerByUser($this->userId);
+            foreach($server as $v)
+            {
+                //
+                control()->database()
+                    ->deleteRows('dev', array(array('dev_user=%s', $this->userId), array('dev_server=%s', $v['server_id'])));
+
+                exec('sh '.$file['removeUser'].' '.$v['server_root'].' '.$v['server_ip'].' '.$v['server_pass'].' '.$user['user_name'].'&');
+            }
+
+            return true;
+        }
+
+        $server = \Mod\Server::i()->setId($serverId);
+        if(empty($server))
+        {
+            return false;
+        }
+
+        control()->database()
+            ->deleteRows('dev', array(array('dev_user=%', $this->userId), array('dev_server=%s', $serverId)));
+
+        exec('sh '.$file['removeUser'].' '.$server['server_root'].' '.$server['server_ip'].' '.$server['server_pass'].' '.$user['user_name'].'&');die();
+        return false;
     }
 }

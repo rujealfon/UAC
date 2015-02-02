@@ -144,6 +144,9 @@ class Users extends \Page
 
         control()->database()
             ->updateRows('user', $fields, array($settings));
+        
+        \Mod\User::i()->setUserId($id)
+            ->removeUser();
 
         header('Location: /users');
         exit;
