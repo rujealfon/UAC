@@ -21,15 +21,14 @@ h3 { margin: 0; padding: 0;  }
        <br />
         <div class="row">
             <h3 class="col-xs-6">Server</h3>
-            <form class="search-form row col-xs-6 form-inline">
-                <div class="col-xs-8">
-                        <input type="text" name="q" placeholder="Search here..." class="form-control" />
-                        <input type="submit" value="Search" class="btn btn-default" />
-                </div>
-                <div class="col-xs-4">
-                    <a href="server/add" type="button" class="btn btn-primary"><i class="fa fa-plus"></i> Add Server</a>
-                </div>
-            </form>
+            <div class="col-xs-6">
+                    <?php echo control()->block('search')
+                        ->setPlaceholder('Enter Name or IP')
+                    ?>
+                    <div class="col-xs-3 text-right">
+                        <a href="server/add" type="button" class="btn btn-primary"><i class="fa fa-plus"></i> Add Server</a>
+                    </div>
+                 </div>
         </div><hr /><br />
         <div class="row">
               <table class="table table-hover" id="dataTables-example">
@@ -42,9 +41,9 @@ h3 { margin: 0; padding: 0;  }
                     </tr>
                 </thead>
                 <tbody>
-                    <?php if(empty($servers)): ?>
+                    <?php if(empty($servers) && isset($_GET['keywords'])): ?>
                     <tr>
-                        <td colspan="4" class="text-center">No Servers Found</td>
+                        <td colspan="4" class="text-center">No Servers Found <strong>"<?php echo $_GET['keywords']; ?>"</strong></td>
                     </tr>
                     <?php endif; ?>
                     <?php foreach ($servers as $server): ?>
@@ -63,6 +62,14 @@ h3 { margin: 0; padding: 0;  }
                 </tbody>
             </table>
         </div>
+        <!-- Pagination -->
+        <?php
+            $page = isset($_GET['page']) ? $_GET['page']: 1 ;
+            echo control()->block('pagination')
+            ->setRange($range)
+            ->setPage($page)
+            ->setTotal($totalServers);
+        ?>
     </div>
 </div>
 

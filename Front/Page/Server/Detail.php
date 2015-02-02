@@ -13,6 +13,9 @@ namespace Front\Page\Server;
  */
 class Detail extends \Page 
 {	
+    const ERROR_NOT = '' ;
+    const RANGE = 5;
+
 	protected $title = "Server Detail";
 	protected $id = "server-detail";
     protected $template ="/server/detail.phtml";
@@ -32,15 +35,27 @@ class Detail extends \Page
         $user = control()->database()
         	->search('dev')
         	->innerJoinOn('user','user_id=dev_user')
-            ->filterByDevServer($this->serverId)
+            ->filterByDevServer($this->serverId);
+
+        // Determine Current Page
+        $page = isset($_GET['page'])? $_GET['page']: 1;
+
+        // Get The Start In Query
+        $start = (isset($_GET['page']) && $_GET['page'] != 1)?
+            ($_GET['page'] - 1) * self::RANGE: 0;
+
+        $totalUsers = $user->getTotal();
+
+        $user = $user->setStart($start)
+            ->setRange(self::RANGE)
             ->getRows();
-
-
-        // control()->inspect($user);
 
 		return array(
 			'detail' => $detail,
-			'user' => $user
+			'user' => $user,
+            'range' => self::RANGE,
+            'page' => $page,
+            'totalUsers' => $totalUsers
 		);
 	}
     
