@@ -56,6 +56,13 @@
                         </tbody>
                     </table>
                 </div>
+                <?php
+                    $page = isset($_GET['page']) ? $_GET['page']: 1 ;
+                    echo control()->block('pagination')
+                    ->setRange($range)
+                    ->setPage($page)
+                    ->setTotal($totalServers);
+                ?>
             </div>
         </div>
     </div>

@@ -13,6 +13,9 @@ namespace Front\Page\User;
  */
 class Detail extends \Page 
 {	
+    const ERROR_NOT = '' ;
+    const RANGE = 10;
+
 	protected $title = "User Detail";
 	protected $id = "user-detail";
     protected $template = '/user/detail.phtml';
@@ -64,7 +67,19 @@ class Detail extends \Page
         $server = control()->database()
             ->search('dev')
             ->innerJoinOn('server','server_id=dev_server')
-            ->filterByDevUser($this->userId)
+            ->filterByDevUser($this->userId);
+
+         // Determine Current Page
+        $page = isset($_GET['page'])? $_GET['page']: 1;
+
+        // Get The Start In Query
+        $start = (isset($_GET['page']) && $_GET['page'] != 1)?
+            ($_GET['page'] - 1) * self::RANGE: 0;
+
+        $totalServers = $server->getTotal();
+
+        $server = $server->setStart($start)
+            ->setRange(self::RANGE)
             ->getRows();
 
         $msg = array();
@@ -77,7 +92,10 @@ class Detail extends \Page
 		return array(
             'userMsg'   => $msg,
 			'detail'    => $detail,
-            'server'    => $server
+            'server'    => $server,
+            'page' => $page,
+            'range' => self::RANGE,
+            'totalServers' => $totalServers
 		);
 
 	}
