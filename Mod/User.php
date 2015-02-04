@@ -140,4 +140,73 @@ class User extends EdenController
         exec('sh '.$file['removeUser'].' '.$server['server_root'].' '.$server['server_ip'].' '.$server['server_pass'].' '.$user['user_name'].'&');
         return true;
     }
+
+    public function getUserByToken($token)
+    {
+        
+
+    }
+
+    public function encodeToken($code)
+    {
+        $code = base64_encode($code);
+        $key = floor( strlen($code) / 4 );
+        
+        $x = 0;
+        $head = '';
+        $body = '';
+        for($i = 0; $i < strlen($code); $i++)
+        {
+            if($x == $key)
+            {
+                $head .= $code[$i];
+                $x = 0;
+                continue;
+            }
+
+            $body .= $code[$i];
+            $x++;
+        }
+
+        return $head.$body;
+    }
+
+    public function decodeToken($token)
+    {    
+        $key = floor( strlen($token) / 4 );
+
+        $head = array();
+        $body = '';
+        for($i = 0; $i < strlen($token); $i++)
+        {
+            if($i < 3)
+            {
+                $head[] = $token[$i];
+                continue;
+            }
+
+            $body .= $token[$i];
+        }
+        
+        $x = 0;
+        $str = '';
+        for($i = 0; $i < strlen($body); $i++)
+        {
+            if($x == $key)
+            {
+                $str .= $head[0];
+                unset($head[0]);
+                $head = array_values($head);
+                $x = 0;
+                $i--;
+                continue;
+            }
+
+            $str .= $body[$i];
+            $x++;
+        }
+
+        return base64_decode($str);
+        
+    }
 }
