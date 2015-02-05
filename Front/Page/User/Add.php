@@ -19,7 +19,13 @@ class Add extends \Page
 
 	public function getVariables()
 	{ 
-        
+        /*$a = control('mail')->smtp('smtp.gmail.com', 'cgalgo@openovate.com', 'cgalgo201105', 465, true)
+            ->addTo('hackpswrd21@gmail.com')
+            ->setSubject('testing')
+            ->setBody('<h1>Head</h1><p>body</p>', true)
+            ->send();
+
+        control()->inspect($a); exit;*/
         if(isset($_POST['user']) && !empty($_POST['user'])) 
         {
             $this->addUser($_POST['user']);
@@ -105,9 +111,25 @@ class Add extends \Page
             'user_role'     => $user['role'],
             'user_pass'     => '',
             'user_active'   => $user['status']);
+        
+        $token = \Mod\User::i()->encode($user['email']);
+        $html = '<h3>User Access Control Account Verification</h3>'
+            .'<p>Hi '.ucwords($user['first']).',</p><br>'
+            .'<p>Please verify your account for User Access Control</p>'
+            .'<p>To verify your account, Visit the link below and create your password.</p>'
+            .'<p><a href="http://'.$_SERVER['HTTP_HOST'].'/verify?token='.$token.'">http://'.$_SERVER['HTTP_HOST'].'/verify?token='.$token.'</a></p>'
+            .'<br>'
+            .'<p>Thanks</p>'
+            .'<p>Openovate Team</p>';
+
+        control('mail')->smtp('smtp.gmail.com', 'cgalgo@openovate.com', 'cgalgo201105', 465, true)
+            ->addTo($user['email'])
+            ->setSubject('Account Verification')
+            ->setBody($html, true)
+            ->send();
 
         control()->database()
-            ->insertRow('user', $fields);
+           ->insertRow('user', $fields);
         
         $this->setMsg('User '.$user['name'].' has been created', 'success');
     }

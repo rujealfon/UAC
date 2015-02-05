@@ -53,7 +53,7 @@ h3 { margin: 0; padding: 0;  }
                         <td><?php echo $server['server_ip']; ?></td>
                         <td class="text-center actions">
                             <a href="#" title="Edit Server"><i class="fa fa-pencil-square"></i></a>
-                            <a href="#" title="Delete Server"><i class="delete fa fa-times-circle"></i></a>
+                            <a href="?remove=<?php echo $server['server_id']; ?>" class="remove" title="Delete Server"><i class="delete fa fa-times-circle"></i></a>
                         </td>
                     </tr>
                     <?php endforeach; ?>
@@ -72,7 +72,7 @@ h3 { margin: 0; padding: 0;  }
 </div>
 
 <script type="text/javascript">
-    $('.delete').click(function() {
+    $('.remove').click(function() {
         if(confirm('Click OK to continue!')) {
             return true;
         }

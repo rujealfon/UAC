@@ -73,7 +73,7 @@ class Add extends \Page
         $fields = array(
             'server_name'   => $data['name'],
             'server_root'   => $data['root'],
-            'server_pass'   => $data['pass'],
+            'server_pass'   => \Mod\User::i()->encode($data['pass']),
             'server_ip'     => $data['ip']);
 
         control()->database()

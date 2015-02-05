@@ -3,7 +3,6 @@
  * This file is part a custom application package.
  * (c) 2011-2012 Openovate Labs
  */
-
 require __DIR__.'/../../Control.php';
 
 /* allow session sharing over subdomains

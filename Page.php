@@ -36,8 +36,9 @@ class Page extends Eden\Block\Base
 	protected $messages = array();
 
     public function __construct() {
+    
         $page = control()->registry()->get('page');
-        if($page != 'Front\Page\Login' && !isset($_SESSION['user'])) {
+        if(($page != 'Front\Page\Login' && $page != 'Front\Page\Verify') && !isset($_SESSION['user'])) {
             header('Location: /login');
             exit;
         }

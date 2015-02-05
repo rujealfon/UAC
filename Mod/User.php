@@ -92,7 +92,10 @@ class User extends EdenController
             control()->database()
                 ->insertRow('dev', $setting);
             
-            exec('sh '.$file['addUser'].' '.$server['server_ip'].' '.$server['server_pass'].' '.base64_decode($user['user_pass']).' '.$user['user_name'].' '.$server['server_root'].' '.$r.' &');
+            $pass = $this->decode($server['server_pass']);
+            $userPass = $this->decode($user['user_pass']);
+
+            exec('sh '.$file['addUser'].' '.$server['server_ip'].' '.$pass.' '.$userPass.' '.$user['user_name'].' '.$server['server_root'].' '.$r.' &');
         }
         
         return;
@@ -119,10 +122,11 @@ class User extends EdenController
             foreach($server as $v)
             {
                 //
+                $pass = $this->decode($server['server_pass']);
                 control()->database()
                     ->deleteRows('dev', array(array('dev_user=%s', $this->userId), array('dev_server=%s', $v['server_id'])));
 
-                exec('sh '.$file['removeUser'].' '.$v['server_root'].' '.$v['server_ip'].' '.$v['server_pass'].' '.$user['user_name'].'&');
+                exec('sh '.$file['removeUser'].' '.$v['server_root'].' '.$v['server_ip'].' '.$pass.' '.$user['user_name'].'&');
             }
 
             return true;
@@ -136,21 +140,28 @@ class User extends EdenController
 
         control()->database()
             ->deleteRows('dev', array(array('dev_user=%s', $user['user_id']), array('dev_server=%s', $serverId)));
+        
+        $pass = $this->decode($server['server_pass']);
 
-        exec('sh '.$file['removeUser'].' '.$server['server_root'].' '.$server['server_ip'].' '.$server['server_pass'].' '.$user['user_name'].'&');
+        exec('sh '.$file['removeUser'].' '.$server['server_root'].' '.$server['server_ip'].' '.$pass.' '.$user['user_name'].'&');
         return true;
     }
 
     public function getUserByToken($token)
     {
-        
+        $email = $this->decode($token);
+        $user = control()->database()
+            ->search('user')
+            ->filterByUserEmail($email)
+            ->getRow();
 
+        return $user;
     }
 
-    public function encodeToken($code)
+    public function encode($code)
     {
         $code = base64_encode($code);
-        $key = floor( strlen($code) / 4 );
+        $key = floor( strlen($code) / 2 );
         
         $x = 0;
         $head = '';
@@ -168,18 +179,19 @@ class User extends EdenController
             $x++;
         }
 
-        return $head.$body;
+        return base64_encode($head.strrev($body));
     }
 
-    public function decodeToken($token)
-    {    
-        $key = floor( strlen($token) / 4 );
+    public function decode($token)
+    {
+        $token = base64_decode($token);
+        $key = floor( strlen($token) / 2 );
 
         $head = array();
         $body = '';
         for($i = 0; $i < strlen($token); $i++)
         {
-            if($i < 3)
+            if($i < 1)
             {
                 $head[] = $token[$i];
                 continue;
@@ -188,6 +200,7 @@ class User extends EdenController
             $body .= $token[$i];
         }
         
+        $body = strrev($body);
         $x = 0;
         $str = '';
         for($i = 0; $i < strlen($body); $i++)
@@ -207,6 +220,5 @@ class User extends EdenController
         }
 
         return base64_decode($str);
-        
     }
 }

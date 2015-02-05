@@ -21,7 +21,6 @@ class Login extends \Page  {
     protected $template = "/login.phtml";
 
     public function getVariables() {
-        
         if(isset($_POST['login']) && !empty($_POST['login'])) {
             $this->login($_POST['login']);
         }
@@ -50,10 +49,10 @@ class Login extends \Page  {
         if(!isset($data['password']) || !trim($data['password'])) {
             $this->loginError(array(
                 'type'  => 'danger',
-                'msg'   => ' Password is invalid!'));
+                'msg'   => 'Password is invalid!'));
         }
 
-        $pass = base64_encode($data['password']);
+        $pass = \Mod\User::i()->encode($data['password']);
         $email = control()->database()->bind($data['email']);
         $account = control()->database()
             ->search('user')

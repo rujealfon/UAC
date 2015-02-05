@@ -22,7 +22,11 @@ class Servers extends \Page
 	protected $id = "server";
 
 	public function getVariables()
-	{ 
+	{
+        if(isset($_GET['remove']) && trim($_GET['remove']))
+        {
+            $this->remove($_GET['remove']);
+        }
 
 		$servers = control()->database()
 			->search('server')
@@ -58,4 +62,11 @@ class Servers extends \Page
 			'totalServers' => count($totalServers)
 		);
 	}
+
+    public function remove($id)
+    {
+        \Mod\Server::i()->removeServer($id);
+        header('Location: /servers');
+        exit;
+    }
 }

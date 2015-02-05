@@ -41,8 +41,9 @@ class Server extends EdenController
         {
             return false;
         }
-        
-        exec('sh '.$file['addServer'].' '.$server['server_root'].' '.$server['server_ip'].' '.$server['server_pass'].' ');
+
+        $pass = \Mod\User::i()->decode($server['server_pass']);
+        exec('sh '.$file['addServer'].' '.$server['server_root'].' '.$server['server_ip'].' '.$pass.' &');
         return true;
     }
 
@@ -54,5 +55,39 @@ class Server extends EdenController
             ->addInnerJoinOn('server', 'server_id = dev_server')
             ->getRows();
 
+    }
+
+    public function removeServer($id)
+    {
+        $server = control()->database()
+            ->search('server')
+            ->filterByServerId($id)
+            ->getRow();
+
+        if(!$server)
+        {
+            return false;
+        }
+
+        //get users
+        $users = control()->database()
+            ->search('dev')
+            ->addInnerJoinOn('user', 'user_id = dev_user')
+            ->filterByDevServer($id)
+            ->getRows();
+        
+        foreach($users as $v)
+        {   
+            \Mod\User::i()->setUserId($v['user_id'])
+                ->removeUser($server['server_id']);
+        }
+
+        control()->database()
+            ->deleteRows('dev', array(array('dev_server=%s', $id)));
+
+        control()->database()
+            ->deleteRows('server', array(array('server_id=%s', $id)));
+
+        return true;
     }
 }
