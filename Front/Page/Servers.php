@@ -18,7 +18,7 @@ class Servers extends \Page
     const ERROR_NOT = '' ;
     const RANGE = 10;
 
-	protected $title = "Server";
+	protected $title = "Servers List";
 	protected $id = "server";
 
 	public function getVariables()

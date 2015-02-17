@@ -19,7 +19,7 @@ class Users extends \Page
     const ERROR_NOT = '' ;
     const RANGE = 10;
 
-	protected $title = "User";
+	protected $title = "Users List";
 	protected $id = "user";
 
 	public function getVariables()

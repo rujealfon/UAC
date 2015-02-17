@@ -14,6 +14,11 @@ use Front\Page\User\Detail as Detail;
  */
 class Index extends Detail
 {
+
+	protected $title = "User Info";
+	protected $class = "user-info";
+
+
     public function getVariables()
     {
         control()->registry()->set('request', 'variables', 0, $_SESSION['user']['user_id']);

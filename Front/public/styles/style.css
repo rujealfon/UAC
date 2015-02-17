@@ -1,0 +1,50 @@
+/* Index 
+------------------------------------------------------------ */
+.user-info .table td, 
+.user-info .table th { font-size: 12px; }
+
+/* Server 
+------------------------------------------------------------ */
+.server .table td, .table th { font-size: 12px; }
+.server.actions a {
+    display: inline-block; 
+    font-size: 14px;
+    margin: 0 5px;
+}
+
+.server hr { margin-bottom: 5px; }
+.server h3 { margin: 0; padding: 0; line-height: 1.5; }
+
+
+/* User 
+------------------------------------------------------------ */
+.user .table td, .table th { font-size: 12px; }
+.user .actions a {
+    display: inline-block; 
+    font-size: 14px;
+    margin: 0 5px;
+}
+
+.user hr { margin-bottom: 5px; }
+.user h3 { margin: 0; padding: 0; line-height: 1.5; }
+.user .dropdown-server { 
+    background: #FFF; 
+    display: none; 
+    border: 1px solid #f1f1f1; 
+    position: absolute;
+    width: 329px;
+    z-index: 1
+}
+.user .dropdown-server a {
+    display:block;
+    padding: 5px;
+}
+
+.user .dropdown-server a:hover { background:#F0F7F9 }
+.user .server-tags { margin-bottom: 5px; }
+.user .server-tags span { display: inline-block; margin: 0 3px; }
+
+.user .modal form .control-label { text-align: left; }
+.user .modal form .modal-body { margin: 0 10%; }
+.user .modal form .modal-body a { text-decoration: none; }
+.user #submitter { display: none; }

@@ -41,7 +41,7 @@
                         <tbody>
                             <?php if(empty($user)): ?>
                                 <tr>
-                                    <td colspan="5" class="text-center">No Server Found</td>
+                                    <td colspan="5" class="text-center">No Users Found</td>
                                 </tr>
                             <?php endif; ?>
 
@@ -51,7 +51,7 @@
                                 <td><?php echo $users['user_name']; ?></td>
                                 <td><?php echo ucwords($users['user_first']); ?> <?php echo ucwords($users['user_last']); ?></td>
                                 <td><?php echo isset($users['user_role']) && $users['user_role'] == '1' ? 'Administrator' : 'Developer'; ?></td>
-                                <td><a href="/server/detail/<?php echo $users['user_id']; ?>" title="Remove User"><i class="delete fa fa-times-circle"></i></a></td>
+                                <td><a href="/server/detail/<?php echo $users['user_id']; ?>" title="Remove User"><i class="delete fa fa-times-circle"></i> Remove</a></td>
                             </tr>
                             <?php endforeach; ?>                                
                         </tbody>

@@ -42,7 +42,7 @@
                         <tbody>
                             <?php if(empty($server)): ?>
                                 <tr>
-                                    <td colspan="3" class="text-center">No Server Found</td>
+                                    <td colspan="3" class="text-center">No Servers Found</td>
                                 </tr>
                             <?php endif; ?>
 
@@ -50,7 +50,7 @@
                             <tr>
                                 <td><?php echo $v['server_name'] ?></td>
                                 <td><?php echo $v['server_ip'] ?></td>
-                                <td><a href="?remove=<?php echo $v['server_id']; ?>" class="remove"><span class="fa fa-times-circle"></span> remove</a></td>
+                                <td><a href="?remove=<?php echo $v['server_id']; ?>" class="remove"><i class="fa fa-times-circle"></i> Remove</a></td>
                             </tr>
                             <?php endforeach; ?>                                
                         </tbody>

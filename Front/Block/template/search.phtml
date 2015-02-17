@@ -1,10 +1,8 @@
-<form action="<?php echo $action; ?>" method="get" class="search-form row col-xs-9 form-inline text-right">
-	    <input type="text" placeholder="<?php echo $placeholder; ?>" 
-	    name="keywords" class="form-control" value="<?php echo $keywords; ?>" />
-    <?php if(!empty($fields)) : ?>
-    <?php foreach($fields as $field) : ?>
-    <?php echo $field; ?>
-    <?php endforeach; ?>
-    <?php endif; ?>
-    <input type="submit" value="Search" class="btn btn-primary" />
-</form> 
+<form action="<?php echo $action; ?>" method="get">
+	<div class="input-group ">
+		<input type="text" placeholder="<?php echo $placeholder; ?>" name="keywords" class="form-control" value="<?php echo $keywords; ?>" />
+		<span class="input-group-btn">
+		<button class="btn btn-primary" type="submit">Search</button>
+		</span>
+	</div>
+</form>
