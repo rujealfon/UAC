@@ -15,6 +15,11 @@
                 </div>
             </div>
         </div><hr /><br />
+        <div class="server-msg">
+        <?php if(isset($serverMsg) && !empty($serverMsg) && is_array($serverMsg)): ?>
+        <p class="alert alert-<?php echo $serverMsg['type']; ?>"><?php echo $serverMsg['msg']; ?></p>
+        <?php endif; ?>
+        </div>
         <div class="table-responsive">
               <table class="table table-hover" id="dataTables-example">
                 <thead>
@@ -37,7 +42,7 @@
                         <td><?php echo $server['server_root']; ?></td>
                         <td><?php echo $server['server_ip']; ?></td>
                         <td class="text-center actions">
-                            <a href="#" title="Edit Server"><i class="fa fa-pencil-square"></i></a>
+                            <a href="/server/edit/<?php echo $server['server_id']; ?>" title="Edit Server"><i class="fa fa-pencil-square"></i></a>
                             <a href="?remove=<?php echo $server['server_id']; ?>" class="remove" title="Delete Server"><i class="delete fa fa-times-circle"></i></a>
                         </td>
                     </tr>

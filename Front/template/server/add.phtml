@@ -3,16 +3,22 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-12">
-                <h3 class="page-header">Add Server</h3>
+                <h3 class="page-header"><?php echo isset($edit) ? 'Edit' : 'Add'; ?> Server</h3>
             </div>
             <!-- /.col-lg-12 -->
         </div>
+        <?php if(isset($edit)): ?>
+        <p class="alert alert-info">Leave <b>password field</b> empty if you don't want to update server password!</p>
+        <?php endif; ?>
         <?php if(isset($serverMsg) && !empty($serverMsg) && is_array($serverMsg)): ?>
         <p class="alert alert-<?php echo $serverMsg['type']; ?>"><?php echo $serverMsg['msg']; ?></p>
         <?php endif; ?>
         <div class="row">
             <div class="col-lg-12">
                 <form role="form" method="post">
+                    <?php if(isset($edit)): ?>
+                    <input type="hidden" name="server[id]" value="<?php echo $data['id']; ?>" />
+                    <?php endif; ?>
                     <div class="form-group col-md-6 ">
                         <label for="email">Server Name</label>
                         <input class="form-control" placeholder="Server Name" name="server[name]" required="" 
@@ -25,17 +31,17 @@
                     </div>
                     <div class="form-group col-md-6 ">
                         <label for="name">Password </label>
-                        <input class="form-control" placeholder="Password" name="server[pass]" required="" 
+                        <input class="form-control" placeholder="Password" name="server[pass]" <?php echo !isset($edit) ? 'required=""': ''; ?> 
                             value="" type="password">
                     </div>
                     <div class="form-group col-md-6">
                         <label for="name">Server IP</label>
                         <input class="form-control" placeholder="Server IP" name="server[ip]" required="" 
-                            value="<?php echo isset($data['ip']) ? $data['ip'] : ''; ?>" type="text">
+                            value="<?php echo isset($data['ip']) ? $data['ip'] : ''; ?>" type="text" <?php echo isset($edit) ? 'disabled' : ''; ?> />
                     </div>
 
                     <div class="col-md-12">
-                        <button type="submit" class="btn btn-primary">Add Server</button>
+                        <button type="submit" class="btn btn-primary">Save</button>
                     </div>
                 </form>
             </div>
