@@ -52,7 +52,7 @@ class Pagination extends Block
         $get = $_GET;
         unset($get['page']);
         $this->query = $get;
-		
+		 
 		return array(
 			'class'	=> $this->class,
 			'url'	=> $this->url,
