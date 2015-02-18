@@ -58,13 +58,21 @@ class Servers extends \Page
         $servers = $servers->setStart($start)
             ->setRange(self::RANGE)
             ->getRows();
+        
+        $msg = array();
+        if(isset($_SESSION['serverMsg']) && is_array($_SESSION['serverMsg']) && !empty($_SESSION['serverMsg']))
+        {
+            $msg = $_SESSION['serverMsg'];
+            unset($_SESSION['serverMsg']);
+        }
 
 
 		return array(
-			'servers' => $servers,
-			'range' => self::RANGE,
-			'page' => $page,
-			'totalServers' => count($totalServers)
+            'serverMsg'     => $msg,
+			'servers'       => $servers,
+			'range'         => self::RANGE,
+			'page'          => $page,
+			'totalServers'  => count($totalServers)
 		);
 	}
 
