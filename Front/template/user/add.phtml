@@ -35,6 +35,7 @@
                         <input class="form-control" placeholder="Last Name" name="user[last]" required="" 
                         value="<?php echo isset($data['last']) ? $data['last'] : ''; ?>" type="text">
                     </div>
+                    <?php if($_SESSION['user']['user_role'] == 1): ?>
                     <div class="form-group col-md-6 ">
                         <label for="name">User Role</label>
                         <select class="form-control" name="user[role]">
@@ -42,6 +43,7 @@
                             <option value="1"<?php echo isset($data['role']) && $data['role'] == 1 ? ' selected' : ''; ?>>Administrator</option>
                         </select>
                     </div>
+                    <?php endif; ?>
                     <hr />
                     <div class="col-md-12">
                         <button type="submit" class="btn btn-primary">Save</button>
