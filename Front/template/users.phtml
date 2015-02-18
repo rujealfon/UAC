@@ -54,7 +54,7 @@
                         <?php endif; ?>
                         </td>
                         <td class="actions">
-                            <a href="#" title="Edit User"><i class="fa fa-pencil-square"></i></a>
+                            <a href="/user/edit/<?php echo $user['user_id']; ?>" title="Edit User"><i class="fa fa-pencil-square"></i></a>
                             <?php if($user['user_active'] != 2): ?>
                             <a href="?del=<?php echo $user['user_id']; ?>" title="Delete User" class="delete"><i class="fa fa-times-circle"></i></a>
 
