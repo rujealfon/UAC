@@ -23,6 +23,11 @@ class Servers extends \Page
 
 	public function getVariables()
 	{
+        if($_SESSION['user']['user_role'] != 1) {
+            header('Location: /');
+            exit;
+        }
+
         if(isset($_GET['remove']) && trim($_GET['remove']))
         {
             $this->remove($_GET['remove']);

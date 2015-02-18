@@ -24,6 +24,11 @@ class Users extends \Page
 
 	public function getVariables()
 	{
+        if($_SESSION['user']['user_role'] != 1) {
+            header('Location: /');
+            exit;
+        }
+
         // add user to server
         if(isset($_POST['addToServer']) && !empty($_POST['addToServer']))
         {

@@ -19,13 +19,11 @@ class Add extends \Page
 
 	public function getVariables()
 	{ 
-        /*$a = control('mail')->smtp('smtp.gmail.com', 'cgalgo@openovate.com', 'cgalgo201105', 465, true)
-            ->addTo('hackpswrd21@gmail.com')
-            ->setSubject('testing')
-            ->setBody('<h1>Head</h1><p>body</p>', true)
-            ->send();
-
-        control()->inspect($a); exit;*/
+        if($_SESSION['user']['user_role'] != 1) {
+            header('Location: /');
+            exit;
+        }
+ 
         if(isset($_POST['user']) && !empty($_POST['user'])) 
         {
             $this->addUser($_POST['user']);
@@ -122,7 +120,9 @@ class Add extends \Page
             .'<p>Thanks</p>'
             .'<p>Openovate Team</p>';
 
-        control('mail')->smtp('smtp.gmail.com', 'cgalgo@openovate.com', 'cgalgo201105', 465, true)
+        $account = control('system')->file(control()->path('config').'/front/accounts.php')->getData();
+
+        control('mail')->smtp($account['host'], $account['email'], $account['pass'], $account['port'], true)
             ->addTo($user['email'])
             ->setSubject('Account Verification')
             ->setBody($html, true)

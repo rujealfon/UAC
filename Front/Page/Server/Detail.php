@@ -23,7 +23,10 @@ class Detail extends \Page
 
 	public function getVariables()
 	{	
-
+        if($_SESSION['user']['user_role'] != 1) {
+            header('Location: /');
+            exit;
+        }
 		// get requested user Id
         $this->serverId = control()->registry()->get('request', 'variables', 0);
 

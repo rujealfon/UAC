@@ -19,6 +19,11 @@ class Add extends \Page
 
 	public function getVariables()
 	{
+        if($_SESSION['user']['user_role'] != 1) {
+            header('Location: /');
+            exit;
+        }
+
         if(isset($_POST['server']) && !empty($_POST['server']) && is_array($_POST['server']))
         {
             $this->addServer($_POST['server']);

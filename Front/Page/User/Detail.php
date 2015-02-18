@@ -22,7 +22,12 @@ class Detail extends \Page
 	protected $userId = null;
 
 	public function getVariables()
-	{ 
+	{
+        if($_SESSION['user']['user_role'] != 1 && isset($_SERVER['REDIRECT_URL'])) {
+            header('Location: /');
+            exit;
+        }
+
 		// get requested user Id
         $this->userId = control()->registry()->get('request', 'variables', 0);
         
