@@ -48,7 +48,11 @@ class Pagination extends Block
 		if($max > $pages) {
 			$max = $pages;
 		}
-		
+        
+        $get = $_GET;
+        unset($get['page']);
+        $this->query = $get;
+		 
 		return array(
 			'class'	=> $this->class,
 			'url'	=> $this->url,
