@@ -1,0 +1,4 @@
+@media (max-width: 767px) {
+	.user .search,
+	.server .search { padding-bottom: 10px; }
+}
