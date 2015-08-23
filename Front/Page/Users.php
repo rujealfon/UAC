@@ -13,17 +13,18 @@ use \Mod\User;
  * @package Framework
  */
 class Users extends \Page 
-{	
+{   
     /* Constants
     -------------------------------*/
     const ERROR_NOT = '' ;
     const RANGE = 10;
 
-	protected $title = "Users List";
-	protected $id = "user";
+    protected $title = "Users List";
+    protected $id = "user";
+    protected $active = "users";
 
-	public function getVariables()
-	{
+    public function getVariables()
+    {
         if($_SESSION['user']['user_role'] != 1) {
             header('Location: /');
             exit;
@@ -35,24 +36,24 @@ class Users extends \Page
             $this->addToServer($_POST['addToServer']);
         }
 
-		$users = User::getUserList();
+        $users = User::getUserList();
 
-		// Search Users
-		$search = control()->database()
-			->search('user');
+        // Search Users
+        $search = control()->database()
+            ->search('user');
 
-		// Get keywords
-		if(isset($_GET['keywords']) && !empty($_GET['keywords'])) 
+        // Get keywords
+        if(isset($_GET['keywords']) && !empty($_GET['keywords'])) 
         {
-			$keywords = sprintf('%s', $_GET['keywords']);
-			$search = $search->addFilter('(user_email LIKE \'%%'.$keywords.'%%\'
-				OR user_name LIKE \'%%'.$keywords.'%%\' 
-				OR user_first LIKE \'%%'.$keywords.'%%\' 
-				OR user_last LIKE \'%%'.$keywords.'%%\')');
-			$users = $search->getRows();
-		}
+            $keywords = sprintf('%s', $_GET['keywords']);
+            $search = $search->addFilter('(user_email LIKE \'%%'.$keywords.'%%\'
+                OR user_name LIKE \'%%'.$keywords.'%%\' 
+                OR user_first LIKE \'%%'.$keywords.'%%\' 
+                OR user_last LIKE \'%%'.$keywords.'%%\')');
+            $users = $search->getRows();
+        }
 
-		// Remove User
+        // Remove User
         if(isset($_GET['del']) && trim($_GET['del']))
         {
             $this->removeUser($_GET['del']);
@@ -71,17 +72,17 @@ class Users extends \Page
             ->setRange(self::RANGE)
             ->getRows();
 
-		// Typehead
-		if (isset($_GET['q']) && !empty($_GET['q'])) {
-			
-			$filter = array();
-	        if(!empty($_GET['q'])) 
+        // Typehead
+        if (isset($_GET['q']) && !empty($_GET['q'])) {
+            
+            $filter = array();
+            if(!empty($_GET['q'])) 
             {
-	            $keyword = trim($_GET['q']);
-	            $keyword = str_replace('+','\+', $keyword);
-	            $keyword = str_replace('.','\.', $keyword);
-	            $filter['cat'] = $keyword;
-	        }
+                $keyword = trim($_GET['q']);
+                $keyword = str_replace('+','\+', $keyword);
+                $keyword = str_replace('.','\.', $keyword);
+                $filter['cat'] = $keyword;
+            }
 
             if(!empty($_GET['x']) && is_array($_GET['x']))
             {
@@ -89,26 +90,26 @@ class Users extends \Page
                     { return control()->database()->bind($val); }
                     , $_GET['x']));
             }
-			
-			// Search For Servername
-			$server = control()->database()
-	            ->search('server')
-	            ->addFilter('server_name LIKE %s', '%'.$filter['cat'].'%');
+            
+            // Search For Servername
+            $server = control()->database()
+                ->search('server')
+                ->addFilter('server_name LIKE %s', '%'.$filter['cat'].'%');
             
             if(isset($x)) {
                 $server->addFilter('(server_id NOT IN ('.$x.'))');
             }
-	        
+            
             $server = $server->getRows();
-	        // encode to json
-	        die(json_encode($server));
-		}
+            // encode to json
+            die(json_encode($server));
+        }
 
-		// for ajax modal
-		if (isset($_GET['action']) && $_GET['action'] == 'getuser')
+        // for ajax modal
+        if (isset($_GET['action']) && $_GET['action'] == 'getuser')
         { 
-			$this->getUser();
-		}
+            $this->getUser();
+        }
         
         $msg = array();
         if(isset($_SESSION['userMsg']) && !empty($_SESSION['userMsg']))
@@ -117,27 +118,27 @@ class Users extends \Page
             unset($_SESSION['userMsg']);
         }
 
-		return array(
+        return array(
             'userMsg'       => $msg,
-			'users'         => $users,
+            'users'         => $users,
             'range'         => self::RANGE,
             'page'          => $page,
             'totalUsers'    => count($totalUsers)
-		);		
-	}
-	
+        );      
+    }
+    
     protected function getUser() 
-	{
-		$id = $_GET['id'];
+    {
+        $id = $_GET['id'];
 
-		$user = control()->database()
-			->search('user')
-			->setColumns('*')
-			->filterByUserId($id)
-			->getRow();
+        $user = control()->database()
+            ->search('user')
+            ->setColumns('*')
+            ->filterByUserId($id)
+            ->getRow();
 
-		echo json_encode($user); exit;
-	}
+        echo json_encode($user); exit;
+    }
 
     protected function removeUser($id)
     {

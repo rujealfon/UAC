@@ -12,17 +12,18 @@ namespace Front\Page;
  * @package Framework
  */
 class Servers extends \Page 
-{	
-	/* Constants
+{   
+    /* Constants
     -------------------------------*/
     const ERROR_NOT = '' ;
     const RANGE = 10;
 
-	protected $title = "Servers List";
-	protected $id = "server";
+    protected $title = "Servers List";
+    protected $id = "server";
+    protected $active = "servers";
 
-	public function getVariables()
-	{
+    public function getVariables()
+    {
         if($_SESSION['user']['user_role'] != 1) {
             header('Location: /');
             exit;
@@ -33,20 +34,20 @@ class Servers extends \Page
             $this->remove($_GET['remove']);
         }
 
-		$servers = control()->database()
-			->search('server')
-			->setColumns('*');
+        $servers = control()->database()
+            ->search('server')
+            ->setColumns('*');
 
-		// Get keywords for Search
-		if(isset($_GET['keywords']) && !empty($_GET['keywords'])) 
+        // Get keywords for Search
+        if(isset($_GET['keywords']) && !empty($_GET['keywords'])) 
         {
-			$keywords = sprintf('%s', $_GET['keywords']);
-			$servers = $servers->addFilter('(server_name LIKE \'%%'.$keywords.'%%\'
-				OR server_root LIKE \'%%'.$keywords.'%%\' 
-				OR server_ip LIKE \'%%'.$keywords.'%%\')');
-		}
-		
-		// Determine Current Page
+            $keywords = sprintf('%s', $_GET['keywords']);
+            $servers = $servers->addFilter('(server_name LIKE \'%%'.$keywords.'%%\'
+                OR server_root LIKE \'%%'.$keywords.'%%\' 
+                OR server_ip LIKE \'%%'.$keywords.'%%\')');
+        }
+        
+        // Determine Current Page
         $page = isset($_GET['page'])? $_GET['page']: 1;
 
         // Get The Start In Query
@@ -67,14 +68,14 @@ class Servers extends \Page
         }
 
 
-		return array(
+        return array(
             'serverMsg'     => $msg,
-			'servers'       => $servers,
-			'range'         => self::RANGE,
-			'page'          => $page,
-			'totalServers'  => count($totalServers)
-		);
-	}
+            'servers'       => $servers,
+            'range'         => self::RANGE,
+            'page'          => $page,
+            'totalServers'  => count($totalServers)
+        );
+    }
 
     public function remove($id)
     {

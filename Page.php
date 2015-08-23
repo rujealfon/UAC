@@ -29,6 +29,7 @@ class Page extends Eden\Block\Base
 	protected $head = array();
 	protected $body = array();
 	protected $foot = array();
+	protected $active = '';
 	
 	protected $id = NULL;
 	protected $title = NULL;
@@ -99,7 +100,15 @@ class Page extends Eden\Block\Base
 		
 		$helpers = $this->getHelpers();
 		
-		$head = array_merge($helpers, $this->head);
+		$head = array_merge($helpers, array(
+			'head' => $this->head,
+			'active' =>  $this->active
+		));
+
+		// control()->inspect($helpers); exit;
+
+
+		// $head = array_merge($helpers, $this->head);
 		$body = array_merge($helpers, $this->getVariables());
 		$foot = array_merge($helpers, $this->foot);
 		
@@ -116,6 +125,7 @@ class Page extends Eden\Block\Base
 			'meta' 			=> $this->meta,
 			'title'			=> $this->title,
 			'class'			=> $this->id,
+			'active'		=> $this->active,
 			'head'			=> $head,
 			'messages'		=> $messages,
 			'body'			=> $body,
@@ -124,6 +134,8 @@ class Page extends Eden\Block\Base
 		//page
 		$file = $path.'/defaults/page.'.static::TEMPLATE_EXTENSION;
 		return control()->template($file, $page);
+
+		// $head = array_merge($helpers, array('head' => $this->active));
 	}
 	
 	protected function addStyles($styles) 
