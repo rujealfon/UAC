@@ -105,10 +105,6 @@ class Page extends Eden\Block\Base
 			'active' =>  $this->active
 		));
 
-		// control()->inspect($helpers); exit;
-
-
-		// $head = array_merge($helpers, $this->head);
 		$body = array_merge($helpers, $this->getVariables());
 		$foot = array_merge($helpers, $this->foot);
 		
@@ -134,8 +130,6 @@ class Page extends Eden\Block\Base
 		//page
 		$file = $path.'/defaults/page.'.static::TEMPLATE_EXTENSION;
 		return control()->template($file, $page);
-
-		// $head = array_merge($helpers, array('head' => $this->active));
 	}
 	
 	protected function addStyles($styles) 
